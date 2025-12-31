@@ -12,19 +12,37 @@
         th { background-color: #007bff; color: white; }
         tr:nth-child(even) { background-color: #f2f2f2; }
         tr:hover { background-color: #e9ecef; }
+        
         .category-tag {
             padding: 5px 10px; border-radius: 15px; color: white; font-weight: bold;
-            font-size: 12px; text-transform: uppercase;
+            font-size: 11px; text-transform: uppercase; white-space: nowrap;
         }
-        /* Color coding for categories */
-        .category-ACCOUNT { background-color: #17a2b8; }
-        .category-PAYMENT { background-color: #28a745; }
-        .category-DELIVERY { background-color: #ffc107; color: #333; }
-        .category-ORDER { background-color: #fd7e14; }
-        .category-INVOICE { background-color: #6f42c1; }
-        .category-REFUND { background-color: #dc3545; }
-        /* Add more colors as needed */
-        .category-default { background-color: #6c757d; }
+
+        /* --- CATEGORY COLOR CODES --- */
+        
+        /* Original Categories */
+        .category-ACCOUNT { background-color: #17a2b8; }      /* Teal */
+        .category-PAYMENT { background-color: #28a745; }      /* Green */
+        .category-DELIVERY { background-color: #ffc107; color: #333; } /* Yellow */
+        .category-ORDER { background-color: #fd7e14; }         /* Orange */
+        .category-INVOICE { background-color: #6f42c1; }       /* Purple */
+        .category-REFUND { background-color: #dc3545; }        /* Red */
+
+        /* New Additional Categories */
+        .category-TECHNICAL { background-color: #007bff; }     /* Royal Blue */
+        .category-FEEDBACK { background-color: #e83e8c; }      /* Pink */
+        .category-SECURITY { background-color: #343a40; }      /* Dark Grey/Black */
+        .category-SUBSCRIPTION { background-color: #20c997; }  /* Mint/Cyan */
+        .category-CANCELLATION { background-color: #6c757d; }  /* Slate Grey */
+        .category-PROMO { background-color: #d63384; }         /* Magenta */
+        .category-WARRANTY { background-color: #82ccdd; color: #333; } /* Sky Blue */
+        .category-SHIPPING { background-color: #a29bfe; }      /* Lavender */
+        .category-URGENT { background-color: #b33939; }        /* Maroon */
+        .category-RETURNS { background-color: #4b7cf3; }       /* Indigo */
+        .category-MEMBERSHIP { background-color: #55efc4; color: #333; } /* Light Teal */
+
+        /* Default fallback */
+        .category-default { background-color: #b2bec3; color: white; }
     </style>
 </head>
 <body>
@@ -50,7 +68,13 @@
                 <td>{{ ticket.customer_email }}</td>
                 <td>{{ ticket.subject }}</td>
                 <td>
-                    <span class="category-tag category-{{ ticket.predicted_category or 'default' }}">{{ ticket.predicted_category }}</span>
+                    <!-- 
+                        The class logic logic converts the category to uppercase 
+                        to match the CSS classes above. 
+                    -->
+                    <span class="category-tag category-{{ (ticket.predicted_category or 'default')|upper }}">
+                        {{ ticket.predicted_category or 'Uncategorized' }}
+                    </span>
                 </td>
                 <td>{{ ticket.status }}</td>
             </tr>
