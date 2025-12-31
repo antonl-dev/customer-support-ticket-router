@@ -5,44 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background-color: #007bff; color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        tr:hover { background-color: #e9ecef; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: #f4f7f6; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #333; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+            background: #fff; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        th, td { 
+            padding: 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd; 
+        }
+        th { 
+            background-color: #007bff; 
+            color: white; 
+        }
+        tr:nth-child(even) { 
+            background-color: #f2f2f2; 
+        }
+        tr:hover { 
+            background-color: #e9ecef; 
+        }
         
         .category-tag {
-            padding: 5px 10px; border-radius: 15px; color: white; font-weight: bold;
-            font-size: 11px; text-transform: uppercase; white-space: nowrap;
+            padding: 5px 12px;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            white-space: nowrap; /* Prevents tag from breaking into two lines */
         }
 
-        /* --- CATEGORY COLOR CODES --- */
+        /* --- CATEGORY COLOR CODES (Based on Bitext Dataset) --- */
+
+        /* Core Transactional Categories */
+        .category-ORDER { background-color: #fd7e14; }            /* Bright Orange */
+        .category-PAYMENT { background-color: #28a745; }          /* Success Green */
+        .category-REFUND { background-color: #dc3545; }           /* Danger Red */
+        .category-INVOICE { background-color: #6f42c1; }          /* Deep Purple */
         
-        /* Original Categories */
-        .category-ACCOUNT { background-color: #17a2b8; }      /* Teal */
-        .category-PAYMENT { background-color: #28a745; }      /* Green */
-        .category-DELIVERY { background-color: #ffc107; color: #333; } /* Yellow */
-        .category-ORDER { background-color: #fd7e14; }         /* Orange */
-        .category-INVOICE { background-color: #6f42c1; }       /* Purple */
-        .category-REFUND { background-color: #dc3545; }        /* Red */
+        /* Logistical Categories */
+        .category-DELIVERY { background-color: #ffc107; color: #333; } /* Warning Yellow */
+        .category-SHIPPING_ADDRESS { background-color: #17a2b8; } /* Info Teal */
 
-        /* New Additional Categories */
-        .category-TECHNICAL { background-color: #007bff; }     /* Royal Blue */
-        .category-FEEDBACK { background-color: #e83e8c; }      /* Pink */
-        .category-SECURITY { background-color: #343a40; }      /* Dark Grey/Black */
-        .category-SUBSCRIPTION { background-color: #20c997; }  /* Mint/Cyan */
-        .category-CANCELLATION { background-color: #6c757d; }  /* Slate Grey */
-        .category-PROMO { background-color: #d63384; }         /* Magenta */
-        .category-WARRANTY { background-color: #82ccdd; color: #333; } /* Sky Blue */
-        .category-SHIPPING { background-color: #a29bfe; }      /* Lavender */
-        .category-URGENT { background-color: #b33939; }        /* Maroon */
-        .category-RETURNS { background-color: #4b7cf3; }       /* Indigo */
-        .category-MEMBERSHIP { background-color: #55efc4; color: #333; } /* Light Teal */
+        /* Account & Subscription */
+        .category-ACCOUNT { background-color: #007bff; }          /* Primary Blue */
+        .category-NEWSLETTER { background-color: #20c997; }       /* Mint Green */
 
-        /* Default fallback */
-        .category-default { background-color: #b2bec3; color: white; }
+        /* Feedback & Fees */
+        .category-FEEDBACK { background-color: #e83e8c; }         /* Hot Pink */
+        .category-CANCELLATION_FEE { background-color: #f39c12; }  /* Amber */
+        
+        /* Default fallback for uncategorized tickets */
+        .category-default { background-color: #6c757d; }          /* Neutral Grey */
     </style>
 </head>
 <body>
@@ -70,7 +97,7 @@
                 <td>
                     <!-- 
                         The class logic logic converts the category to uppercase 
-                        to match the CSS classes above. 
+                        to match the CSS classes above (e.g., 'ORDER', 'PAYMENT'). 
                     -->
                     <span class="category-tag category-{{ (ticket.predicted_category or 'default')|upper }}">
                         {{ ticket.predicted_category or 'Uncategorized' }}
